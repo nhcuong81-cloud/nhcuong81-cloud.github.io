@@ -1,58 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Privacy Policy - PMC220 Energy Monitor</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy Policy - PMC220 / DDS3366D Energy Monitor</title>
 <style>
-body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
-h1 { color: #333; }
-h2 { margin-top: 30px; }
+  body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; max-width:900px; margin:36px auto; color:#111; line-height:1.6; padding:0 18px;}
+  h1,h2{color:#0b4a6f}
+  pre{background:#f6f8fa;padding:10px;border-radius:6px;overflow:auto}
+  footer{margin-top:36px;color:#666;font-size:0.95em}
+  .tag{font-weight:600}
+  .note{background:#fff5cc;border-left:4px solid #ffd24d;padding:12px;border-radius:6px;margin:12px 0}
 </style>
 </head>
 <body>
 
-<h1>Privacy Policy - PMC220 Energy Monitor</h1>
-<p>Last updated: 2025</p>
+<h1>Privacy Policy – PMC220 / DDS3366D Energy Monitor</h1>
+<p><em>Last updated: 2025</em></p>
 
-<h2>1. Introduction</h2>
-<p>PMC220 Energy Monitor (“we”, “our”, “the App”) is committed to protecting your privacy.
-This Privacy Policy explains how we handle information when you use our mobile application.</p>
-<p>We do <strong>not collect, store, process or share</strong> any personal data from users.</p>
+<p>Ứng dụng <strong>PMC220 / DDS3366D Energy Monitor</strong> kết hợp với phần cứng gateway (ví dụ: <strong>ESP01-RS485</strong>) cho phép thu thập dữ liệu điện năng từ đồng hồ đo (PMC220, DDS3366D, v.v.) và gửi dữ liệu đó lên máy chủ (server). Ứng dụng di động sau đó kết nối tới server để truy xuất và hiển thị dữ liệu cho người dùng.</p>
 
-<h2>2. Information We Collect</h2>
-<p>The App does <strong>not collect any personal information</strong> such as name, email, phone number, location, device identifiers, or any personal data.</p>
+<hr>
+<h2 id="overview">1. Tổng quan (Overview)</h2>
+<p>Chúng tôi cam kết bảo vệ quyền riêng tư người dùng. Chính sách này mô tả những loại dữ liệu nào được thu thập, mục đích sử dụng, lưu trữ, chia sẻ và cách bạn có thể liên hệ để yêu cầu xóa hoặc hỗ trợ.</p>
 
-<h2>3. Bluetooth Permissions</h2>
-<p>The App uses Bluetooth only to connect to the PMC220 energy meter. The permission is used solely for:</p>
+<hr>
+<h2 id="data-collected">2. Dữ liệu được thu thập (Data we collect)</h2>
+
+<p>Vì kiến trúc hệ thống gồm <em>gateway (ESP01-RS485) → server → app</em>, dữ liệu được thu thập chủ yếu ở phía server. Dưới đây liệt kê chi tiết:</p>
+
 <ul>
-<li>Discovering Bluetooth devices</li>
-<li>Connecting to the PMC220 device</li>
-<li>Reading measurement data (voltage, current, power, etc.)</li>
+  <li><strong>Dữ liệu đo đạc điện (Meter readings)</strong>: giá trị điện áp (V), dòng điện (A), công suất (W), năng lượng tích lũy (Wh/kWh), hệ số công suất (PF), tần số (Hz), timestamp, và ID thiết bị/đồng hồ (meter ID). Đây là dữ liệu kỹ thuật, không phải dữ liệu cá nhân.</li>
+  <li><strong>Metadata kỹ thuật</strong>: địa chỉ IP của gateway khi gửi lên (logging server-side), trạng thái kết nối, lỗi truyền tin (nhằm mục đích chẩn đoán).</li>
+  <li><strong>Thông tin tài khoản (nếu bạn sử dụng hệ thống có đăng nhập)</strong>: email, tên hiển thị, user ID (chỉ khi app/server hỗ trợ tài khoản người dùng). Nếu ứng dụng của bạn không yêu cầu đăng nhập thì phần này không áp dụng.</li>
+  <li><strong>Logs hoạt động (optional)</strong>: các bản ghi (logs) để phục vụ debug, phân tích sự cố và vận hành; logs thường được giữ ở mức tối thiểu và có thể ẩn danh hóa hoặc xóa định kỳ.</li>
 </ul>
-<p>The App does not track your location or collect any personal information.</p>
 
-<h2>4. Data Usage</h2>
-<p>All measurement data is processed locally on your device. No data is uploaded or sent to any server.</p>
+<div class="note">
+  <strong>Lưu ý:</strong> nếu bạn không sử dụng tính năng đăng nhập tài khoản trên server, thì server chỉ lưu dữ liệu meter readings và metadata kỹ thuật; không lưu email hay thông tin cá nhân.
+</div>
 
-<h2>5. Third-Party Services</h2>
-<p>The App does not use any analytics tools, advertising SDKs, tracking frameworks, or cloud services.</p>
+<hr>
+<h2 id="purpose">3. Mục đích sử dụng dữ liệu (Purpose)</h2>
+<ul>
+  <li>Hiển thị dữ liệu đo đạc trên ứng dụng để người dùng giám sát điện năng theo thời gian thực hoặc lịch sử.</li>
+  <li>Lưu trữ lịch sử đo để báo cáo, xuất CSV, biểu đồ, phân tích tiêu thụ.</li>
+  <li>Giám sát hoạt động gateway/thiết bị và chẩn đoán sự cố (ví dụ: kết nối RS485, lỗi truyền dữ liệu).</li>
+  <li>Nếu có tài khoản: quản lý người dùng, phân quyền truy cập, và lưu cấu hình cá nhân.</li>
+</ul>
 
-<h2>6. Children’s Privacy</h2>
-<p>The App is safe for users of all ages and complies with COPPA requirements. No personal information is collected from children.</p>
+<hr>
+<h2 id="sharing">4. Chia sẻ dữ liệu (Sharing & Disclosure)</h2>
+<ul>
+  <li>Chúng tôi <strong>không bán</strong> dữ liệu meter readings hoặc thông tin người dùng cho bên thứ ba.</li>
+  <li>Server có thể chia sẻ dữ liệu với nhà cung cấp dịch vụ cloud/host (ví dụ: hosting provider) để vận hành hệ thống — trong trường hợp đó nhà cung cấp hosting chỉ xử lý dữ liệu theo yêu cầu phía chúng tôi và chịu trách nhiệm bảo mật theo hợp đồng.</li>
+  <li>Trong trường hợp pháp lý (ví dụ cơ quan có thẩm quyền yêu cầu), chúng tôi có thể cung cấp các bản ghi cần thiết theo quy định pháp luật.</li>
+</ul>
 
-<h2>7. Data Retention & Deletion</h2>
-<p>Since no data is collected or stored, there is nothing to delete. All information is temporary.</p>
+<hr>
+<h2 id="retention">5. Lưu giữ dữ liệu (Retention)</h2>
+<p>Chúng tôi lưu dữ liệu meter readings và logs trên server trong thời gian <strong>[thời gian lưu mặc định hoặc theo cấu hình]</strong>. Bạn có thể yêu cầu xóa dữ liệu lịch sử hoặc yêu cầu xóa tài khoản (nếu có) bằng cách liên hệ email bên dưới. Thời gian xóa có thể phụ thuộc vào quy trình sao lưu và chính sách lưu trữ của hosting.</p>
 
-<h2>8. Security</h2>
-<p>All communication is done locally via Bluetooth. No data is transmitted over the internet.</p>
+<hr>
+<h2 id="security">6. Bảo mật (Security)</h2>
+<ul>
+  <li>Server nên được cấu hình sử dụng HTTPS cho API giữa app và server. (Cần thiết: <code>https://REPLACE_WITH_YOUR_SERVER_DOMAIN</code>).</li>
+  <li>Dữ liệu meter readings được lưu trên server với quyền truy cập giới hạn; chỉ các dịch vụ và tài khoản được ủy quyền mới có thể truy xuất.</li>
+  <li>Thông tin đăng nhập (nếu có) được lưu dưới dạng băm/mã hoá theo chuẩn an toàn (ví dụ: bcrypt) — không lưu mật khẩu dạng plain-text.</li>
+  <li>Chúng tôi khuyến nghị bật cơ chế sao lưu, cập nhật bảo mật định kỳ và theo dõi truy cập bất thường.</li>
+</ul>
 
-<h2>9. Changes to This Policy</h2>
-<p>We may update this Privacy Policy when necessary. New versions will be posted here.</p>
+<hr>
+<h2 id="user-rights">7. Quyền người dùng (Your rights)</h2>
+<p>Bạn có thể:</p>
+<ul>
+  <li>Yêu cầu truy cập dữ liệu mà server lưu cho bạn (nếu có tài khoản).</li>
+  <li>Yêu cầu xóa dữ liệu (ví dụ: xóa lịch sử đo hoặc xóa tài khoản).</li>
+  <li>Yêu cầu chỉnh sửa thông tin tài khoản (nếu áp dụng).</li>
+</ul>
+<p>Để thực hiện các quyền trên, hãy liên hệ email bên dưới.</p>
 
-<h2>10. Contact Us</h2>
-<p>Email: your-email@example.com<br>
-Developer: Your Company/Name</p>
+<hr>
+<h2 id="third-parties">8. Dịch vụ bên thứ ba (Third-party services)</h2>
+<p>Hiện tại app <strong>không tích hợp quảng cáo</strong> và <strong>không bật dịch vụ analytics mặc định</strong>, trừ khi bạn cấu hình thêm. Nếu bạn có bật analytics (ví dụ: để phân tích hiệu năng), chính sách này sẽ được cập nhật và ghi rõ trong phần "Changes".</p>
+
+<hr>
+<h2 id="children">9. Trẻ em (Children)</h2>
+<p>Ứng dụng không chủ ý thu thập thông tin cá nhân của trẻ em. Nếu bạn là phụ huynh và nhận thấy có dữ liệu liên quan đến con em mình, liên hệ để yêu cầu xóa.</p>
+
+<hr>
+<h2 id="changes">10. Thay đổi chính sách (Changes)</h2>
+<p>Chúng tôi có thể cập nhật Privacy Policy này để phản ánh thay đổi trong hạ tầng, luật pháp hoặc tính năng. Mọi thay đổi sẽ được đăng lên URL này.</p>
+
+<hr>
+<h2 id="contact">11. Liên hệ (Contact)</h2>
+<p>Nếu bạn có câu hỏi hoặc muốn yêu cầu truy cập/xóa dữ liệu, vui lòng liên hệ:</p>
+<pre>Server & API: https://REPLACE_WITH_YOUR_SERVER_DOMAIN
+Email: your-email@example.com
+Developer: Your Company / Your Name</pre>
+
+<footer>
+  <p>Phiên bản chính sách này dành cho ứng dụng PMC220 / DDS3366D Energy Monitor. Vui lòng thay thế các trường <code>REPLACE_WITH_YOUR_SERVER_DOMAIN</code> và email bằng thông tin thực tế trước khi công khai.</p>
+</footer>
+
+<hr>
+<!-- English version below -->
+<h1>Privacy Policy – English (Server-based architecture)</h1>
+
+<p><em>Last updated: 2025</em></p>
+
+<p>This Privacy Policy describes how the PMC220 / DDS3366D Energy Monitor mobile application and associated server handle data. The system architecture: <strong>ESP01-RS485 reads Modbus RTU from meters → gateway sends data to server → server stores meter readings → mobile app fetches data from server</strong>.</p>
+
+<h2>1. Data Collected</h2>
+<ul>
+  <li><strong>Meter readings:</strong> voltage (V), current (A), power (W), energy (Wh/kWh), power factor, frequency, timestamp, meter ID.</li>
+  <li><strong>Technical metadata:</strong> gateway IP (for logging), connection status, error logs.</li>
+  <li><strong>User account info (optional):</strong> email, display name, user ID — only if your deployment uses user accounts.</li>
+  <li><strong>Operational logs (optional):</strong> used for debugging and maintenance.</li>
+</ul>
+
+<h2>2. How We Use Data</h2>
+<p>Data is used to display measurements on the mobile app, provide historical reports, diagnostics, and for user account management if applicable. Data processing happens on the server and is accessed by the mobile app via secured API.</p>
+
+<h2>3. Sharing</h2>
+<ul>
+  <li>We <strong>do not sell</strong> meter data or user information.</li>
+  <li>Hosting providers may process data under contract.</li>
+  <li>Data may be disclosed to authorities if legally required.</li>
+</ul>
+
+<h2>4. Retention & Deletion</h2>
+<p>Data retention periods depend on server configuration. Users may request data export or deletion via contact email.</p>
+
+<h2>5. Security</h2>
+<p>Use HTTPS for app−server API. Store credentials securely. Limit access to authorized services and personnel.</p>
+
+<h2>6. Contact</h2>
+<pre>Server & API: https://REPLACE_WITH_YOUR_SERVER_DOMAIN
+Email: your-email@example.com</pre>
+
+<footer>
+  <p>Replace placeholders with your actual server domain and contact email before publishing.</p>
+</footer>
 
 </body>
 </html>
