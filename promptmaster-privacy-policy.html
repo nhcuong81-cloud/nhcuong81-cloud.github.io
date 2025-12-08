@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chính sách quyền riêng tư – PromptMaster (AI Prompt Toolkit)</title>
+
+  <!-- Google Font (tuỳ chọn, có thể bỏ nếu muốn) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --primary: #ff6f3c;   /* màu cam nhẹ kiểu Shopee */
+      --primary-soft: #fff5ef;
+      --bg: #f5f7fb;
+      --text: #1f2933;
+      --muted: #6b7280;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 14px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #fff8f3, #f3f4f6);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px 12px 48px;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Header / Hero */
+
+    header {
+      background: linear-gradient(135deg, #ff8a4a, #ff6f3c);
+      border-radius: 26px;
+      padding: 24px 20px;
+      color: #ffffff;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 100%;
+      border: 32px solid rgba(255, 255, 255, 0.18);
+      top: -80px;
+      right: -40px;
+    }
+
+    .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.16);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 10px;
+      backdrop-filter: blur(6px);
+    }
+
+    .app-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+
+    header h1 {
+      font-size: 26px;
+      margin-bottom: 4px;
+      letter-spacing: 0.01em;
+    }
+
+    header p {
+      font-size: 14px;
+      max-width: 520px;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .updated {
+      margin-top: 10px;
+      font-size: 12px;
+      opacity: 0.85;
+    }
+
+    /* Content layout */
+
+    main {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    @media (max-width: 840px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Cards, sections */
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.04);
+      border: 1px solid rgba(249, 115, 22, 0.06);
+    }
+
+    .card + .card {
+      margin-top: 14px;
+    }
+
+    h2.section-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .icon-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 15px;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    p + p {
+      margin-top: 8px;
+    }
+
+    ul {
+      margin-top: 8px;
+      padding-left: 18px;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    ul li + li {
+      margin-top: 4px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #f3f4ff;
+      color: #4b5563;
+      border: 1px solid #e5e7eb;
+    }
+
+    /* Sidebar */
+
+    .sidebar-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 18px 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    .sidebar-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-item {
+      font-size: 13px;
+      padding: 6px 0;
+      border-bottom: 1px dashed #e5e7eb;
+    }
+
+    .sidebar-item:last-child {
+      border-bottom: none;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #ecfdf3;
+      color: #166534;
+      margin-top: 8px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+
+    footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HERO -->
+    <header>
+      <div class="app-badge">
+        <span class="app-badge-dot"></span>
+        <span>Ứng dụng: PromptMaster – AI Prompt Toolkit</span>
+      </div>
+      <h1>Chính sách quyền riêng tư</h1>
+      <p>
+        Chúng tôi tôn trọng quyền riêng tư của bạn. Tài liệu này giải thích rõ
+        cách PromptMaster xử lý dữ liệu và quyền liên quan khi bạn sử dụng
+        ứng dụng.
+      </p>
+      <div class="updated">
+        <strong>Ngày cập nhật gần nhất:</strong> 12/12/2025
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main>
+      <!-- LEFT COLUMN -->
+      <section>
+        <!-- 1. Thông tin thu thập -->
+        <article class="card">
+          <div class="section-tag">Mục 1</div>
+          <h2 class="section-title">
+            <span class="icon-circle">1</span>
+            Thông tin chúng tôi thu thập
+          </h2>
+          <p>
+            PromptMaster được thiết kế để hoạt động chủ yếu
+            <strong>ngoại tuyến (offline)</strong> và tập trung vào việc giúp
+            bạn tạo &amp; quản lý các mẫu prompt cho AI. Ứng dụng có thể xử lý
+            các loại dữ liệu sau do <strong>bạn tự nhập</strong>:
+          </p>
+          <ul>
+            <li>Các prompt bạn tạo, chỉnh sửa hoặc lưu trữ trong ứng dụng.</li>
+            <li>Ghi chú, mô tả, hoặc nhãn (tag) bạn gán cho từng prompt.</li>
+            <li>Các nhóm, thư viện prompt cá nhân hoá.</li>
+          </ul>
+          <p>
+            Tất cả dữ liệu trên chỉ được lưu <strong>cục bộ trên thiết bị</strong>
+            của bạn (trừ khi bạn tự xuất/chia sẻ ra ngoài), và
+            <strong>không được gửi tới máy chủ riêng</strong> của chúng tôi.
+          </p>
+        </article>
+
+        <!-- 2. Dữ liệu không thu thập -->
+        <article class="card">
+          <div class="section-tag">Mục 2</div>
+          <h2 class="section-title">
+            <span class="icon-circle">2</span>
+            Dữ liệu chúng tôi <u>không</u> thu thập
+          </h2>
+          <p>
+            PromptMaster <strong>không thu thập</strong> các loại dữ liệu sau:
+          </p>
+          <div class="pill-list">
+            <span class="pill">Họ tên, email, số điện thoại</span>
+            <span class="pill">Danh bạ, tin nhắn, lịch</span>
+            <span class="pill">Ảnh &amp; video cá nhân</span>
+            <span class="pill">Vị trí GPS hoặc địa chỉ</span>
+            <span class="pill">Mã nhận dạng quảng cáo (AD_ID)</span>
+          </div>
+          <p>
+            Ngoài ra, ứng dụng không âm thầm gửi dữ liệu prompt hoặc nội dung
+            bạn nhập cho bất kỳ bên thứ ba nào.
+          </p>
+        </article>
+
+        <!-- 3. Quyền truy cập thiết bị -->
+        <article class="card">
+          <div class="section-tag">Mục 3</div>
+          <h2 class="section-title">
+            <span class="icon-circle">3</span>
+            Quyền truy cập trên thiết bị
+          </h2>
+          <p>
+            Tùy theo cách bạn sử dụng, ứng dụng có thể yêu cầu một số quyền
+            nhất định:
+          </p>
+          <ul>
+            <li>
+              <strong>Quyền truy cập tệp (Storage):</strong> dùng khi bạn
+              <em>xuất</em> hoặc <em>nhập</em> thư viện prompt, file cấu hình.
+            </li>
+          </ul>
+          <p class="muted">
+            Chúng tôi không sử dụng các quyền này để truy cập dữ liệu ngoài mục
+            đích vận hành tính năng mà bạn đã chủ động thực hiện.
+          </p>
+        </article>
+
+        <!-- 4. Lưu trữ dữ liệu -->
+        <article class="card">
+          <div class="section-tag">Mục 4</div>
+          <h2 class="section-title">
+            <span class="icon-circle">4</span>
+            Lưu trữ &amp; thời gian tồn tại dữ liệu
+          </h2>
+          <p>
+            Mọi dữ liệu prompt, ghi chú, cấu hình… đều được lưu
+            <strong>trên chính thiết bị</strong> của bạn:
+          </p>
+          <ul>
+            <li>Dữ liệu tồn tại cho đến khi bạn xoá hoặc gỡ ứng dụng.</li>
+            <li>
+              Xoá ứng dụng hoặc xoá dữ liệu ứng dụng trong phần cài đặt hệ
+              thống sẽ xoá toàn bộ dữ liệu liên quan.
+            </li>
+          </ul>
+          <p>
+            Chúng tôi không duy trì bản sao dữ liệu của bạn trên máy chủ riêng,
+            do đó không thể khôi phục lại nếu bạn đã xoá trên thiết bị.
+          </p>
+        </article>
+
+        <!-- 5. Quảng cáo & dịch vụ bên thứ ba -->
+        <article class="card">
+          <div class="section-tag">Mục 5</div>
+          <h2 class="section-title">
+            <span class="icon-circle">5</span>
+            Quảng cáo &amp; dịch vụ bên thứ ba
+          </h2>
+          <p>Ở phiên bản hiện tại:</p>
+          <ul>
+            <li>Ứng dụng <strong>không hiển thị quảng cáo</strong>.</li>
+            <li>
+              Ứng dụng <strong>không tích hợp SDK quảng cáo</strong> (như Google
+              AdMob, Facebook Ads…).
+            </li>
+            <li>
+              Ứng dụng <strong>không sử dụng</strong> mã nhận dạng quảng cáo
+              (Android Advertising ID – AD_ID).
+            </li>
+            <li>
+              Ứng dụng <strong>không tích hợp SDK phân tích hành vi</strong> như
+              Google Analytics, Firebase Analytics.
+            </li>
+          </ul>
+          <p>
+            Nếu trong tương lai chúng tôi bổ sung quảng cáo hoặc dịch vụ phân
+            tích, chính sách này sẽ được cập nhật và bạn sẽ thấy thay đổi khi
+            cập nhật ứng dụng.
+          </p>
+        </article>
+
+        <!-- 6. Bảo mật -->
+        <article class="card">
+          <div class="section-tag">Mục 6</div>
+          <h2 class="section-title">
+            <span class="icon-circle">6</span>
+            Bảo mật dữ liệu
+          </h2>
+          <p>
+            Chúng tôi áp dụng các nguyên tắc thiết kế ứng dụng an toàn, giảm
+            thiểu tối đa dữ liệu phải xử lý:
+          </p>
+          <ul>
+            <li>Không thu thập dữ liệu cá nhân nhạy cảm.</li>
+            <li>Không gửi dữ liệu prompt của bạn lên máy chủ riêng.</li>
+            <li>Không chia sẻ dữ liệu người dùng cho bên thứ ba.</li>
+          </ul>
+          <p class="muted">
+            Mặc dù vậy, không có hệ thống nào đảm bảo an toàn tuyệt đối 100%.
+            Bạn nên tránh lưu các thông tin quá nhạy cảm (như mật khẩu, số thẻ,
+            dữ liệu khách hàng…) trực tiếp trong prompt.
+          </p>
+        </article>
+
+        <!-- 7. Thay đổi chính sách -->
+        <article class="card">
+          <div class="section-tag">Mục 7</div>
+          <h2 class="section-title">
+            <span class="icon-circle">7</span>
+            Thay đổi chính sách
+          </h2>
+          <p>
+            Chúng tôi có thể cập nhật chính sách quyền riêng tư khi bổ sung
+            tính năng mới hoặc thay đổi cách xử lý dữ liệu. Khi đó:
+          </p>
+          <ul>
+            <li>Ngày “Cập nhật gần nhất” ở đầu trang sẽ được điều chỉnh.</li>
+            <li>
+              Bản chính sách mới sẽ được đăng tại cùng địa chỉ trang web này.
+            </li>
+          </ul>
+        </article>
+
+        <!-- 8. Liên hệ -->
+        <article class="card">
+          <div class="section-tag">Mục 8</div>
+          <h2 class="section-title">
+            <span class="icon-circle">@</span>
+            Liên hệ
+          </h2>
+          <p>
+            Nếu bạn có bất kỳ câu hỏi hoặc yêu cầu nào liên quan đến quyền
+            riêng tư khi sử dụng PromptMaster, vui lòng liên hệ:
+          </p>
+          <p>
+            📧 Email hỗ trợ:
+            <strong>nhcuong81@gmail.com</strong>
+          </p>
+        </article>
+      </section>
+
+      <!-- RIGHT COLUMN / SIDEBAR -->
+      <aside>
+        <div class="sidebar-card">
+          <div class="sidebar-title">Tóm tắt nhanh</div>
+          <div class="sidebar-item">
+            <strong>Thu thập dữ liệu cá nhân:</strong><br />
+            Không
+          </div>
+          <div class="sidebar-item">
+            <strong>Quảng cáo trong ứng dụng:</strong><br />
+            Không
+          </div>
+          <div class="sidebar-item">
+            <strong>SDK quảng cáo / AD_ID:</strong><br />
+            Không sử dụng
+          </div>
+          <div class="sidebar-item">
+            <strong>Lưu trữ dữ liệu:</strong><br />
+            Cục bộ trên thiết bị
+          </div>
+          <div class="sidebar-item">
+            <strong>Chia sẻ với bên thứ ba:</strong><br />
+            Không
+          </div>
+
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            <span>Thiết kế theo nguyên tắc “thu thập tối thiểu”</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      © 2025 PromptMaster – AI Prompt Toolkit. Mọi quyền được bảo lưu.
+    </footer>
+  </div>
+</body>
+</html>
